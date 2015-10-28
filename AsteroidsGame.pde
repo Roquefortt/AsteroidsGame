@@ -4,29 +4,45 @@
 public void setup() 
 {
   //your code here
+  size(500,500);
 }
+
 public void draw() 
 {
   //your code here
 }
+
 class SpaceShip extends Floater  
 {   
   //your code here
- /* SpaceShip()
+  int corners, myColor;
+  int[] xCorners, yCorners; 
+  double myCenterX, myCenterY, myDirectionX, myDirectionY, myPointDirection; 
+
+  SpaceShip(int x, int y)
   {
+    corners = 4;
+    //myColor = ((int)(Math.random()*256)+1), (int)(Math.random()*256)+1), (int)(Math.random()*256)+1);
+   // xCorners= {-8,16,-8,-2};
+    //yCorners = {-8,0,8,0};
+    myCenterX = x;
+    myCenterY = y;
+    myDirectionX = 0;
+    myDirectionY = 0;
+    myPointDirection = 0;
 
   }
-  */
-  public void setX(int x){myX = x;}
-  public int getX(){return myX;}   
-  public void setY(int y){myY = y;}  
-  public int getY(){return myY;} 
-  public void setDirectionX(double x){myX = x;}  
-  public double getDirectionX(){return myX;}    
-  public void setDirectionY(double y){myY = y;} 
-  public double getDirectionY(){return myY;} 
- // public void setPointDirection(int degrees)(myPointDirection = dRadians;)  
-  public double getPointDirection(){return dRadians;}
+  //(float)? 
+  public void setX(int x){myCenterX = x;}
+  public int getX(){return myCenterX;}   
+  public void setY(int y){myCenterY = y;}  
+  public int getY(){return myCenterY;} 
+  public void setDirectionX(double x){myDirectionX = x;}  
+  public double getDirectionX(){return myDirectionX;}    
+  public void setDirectionY(double y){myDirectionY = y;} 
+  public double getDirectionY(){return myDirectionY;} 
+  public void setPointDirection(int degrees){myPointDirection = dRadians;}
+  public double getPointDirection(){return myPointDirection;}
 
 
 }
@@ -107,4 +123,3 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-
