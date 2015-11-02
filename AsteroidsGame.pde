@@ -1,36 +1,33 @@
 //your variable declarations here
+Star[] nightsky = new Star[200];
 SpaceShip ship;
 
 public void setup() 
 {
-  background((int)(Math.random()*50)+146,(int)(Math.random()*50)+146,(int)(Math.random()*50)+146);
+  background(0);
   size(500,500);
   ship = new SpaceShip();
+
+  for (int i = 0; i < nightsky.length; i++)
+  {
+    nightsky[i] = new Star();
+  }
+
 }
 
 public void draw() 
 {
-  //your code here
+  for (int i = 0; i < nightsky.length; i++)
+  {
+    nightsky[i].show();
+  }
+
   ship.show();
 }
 
 class SpaceShip extends Floater  
 {   
   //your code here
-  SpaceShip()
-  {
-    myColor = color((int)(Math.random()*50)+146,(int)(Math.random()*50)+146,(int)(Math.random()*50)+146);
-    corners = 4;
-    int[] xS = {-8,16,-8,-2};
-    int[] yS = {-8,0,8,0}; 
-    xCorners = xS;
-    yCorners = yS;
-
-    //myDirectionX = 0;
-    //myDirectionY = 0;
-    //myPointDirection = 0;
-  }
-
   public void setX(int x){myCenterX = x;}
   public int getX(){return (int)myCenterX;}   
   public void setY(int y){myCenterY = y;}  
@@ -42,6 +39,41 @@ class SpaceShip extends Floater
   public void setPointDirection(int degrees){myPointDirection = degrees;}
   public double getPointDirection(){return myPointDirection;}
 
+  public int x, y, degrees, myColor;
+  public SpaceShip()
+  {
+    myColor = color(255);
+    //myDirectionX = 0;
+    //myDirectionY = 0;
+    //myPointDirection = 0;
+  }
+    public void show()
+    {
+      fill(myColor);
+      //stroke(myColor);
+      corners = 4;
+      int[] xS = {-8,16,-8,-2};
+      int[] yS = {-8,0,8,0}; 
+      xCorners = xS;
+      yCorners = yS;
+    }
+
+}
+
+class Star
+{
+  private int myX, myY;
+  public Star()
+  {
+    myX = (int)(Math.random()*500);
+    myY = (int)(Math.random()*500);
+  }
+
+  public void show()
+  {
+    fill(255);
+    ellipse(myX, myY, 3, 3);
+  }
 }
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
