@@ -4,7 +4,6 @@ SpaceShip ship;
 
 public void setup() 
 {
-  background(0);
   size(500,500);
   ship = new SpaceShip();
 
@@ -17,12 +16,17 @@ public void setup()
 
 public void draw() 
 {
+  background(0);
+
+  ship.show();
+  ship.keyPressed();
+  ship.move();
+
   for (int i = 0; i < nightsky.length; i++)
   {
     nightsky[i].show();
   }
 
-  ship.show();
 }
 
 class SpaceShip extends Floater  
@@ -39,25 +43,54 @@ class SpaceShip extends Floater
   public void setPointDirection(int degrees){myPointDirection = degrees;}
   public double getPointDirection(){return myPointDirection;}
 
-  public int x, y, degrees, myColor;
   public SpaceShip()
   {
+    corners = 4;
+    int[] xS = {-8,16,-8,-2};
+    int[] yS = {-8,0,8,0}; 
     myColor = color(255);
-    //myDirectionX = 0;
-    //myDirectionY = 0;
-    //myPointDirection = 0;
+    xCorners = xS;
+    yCorners = yS;
+
+    myCenterX = 250;
+    myCenterY = 250;
+
+    myDirectionX = 0; // ??? 
+    myDirectionY = 0;
+    myPointDirection = 0;
   }
-    public void show()
+
+  public void keyPressed()
+  {
+    //move up
+    if (key == 'w' || key == 'W')
     {
-      fill(myColor);
-      //stroke(myColor);
-      corners = 4;
-      int[] xS = {-8,16,-8,-2};
-      int[] yS = {-8,0,8,0}; 
-      xCorners = xS;
-      yCorners = yS;
+      myCenterY -= 2;    
+      myPointDirection = 270;   
     }
 
+    //move down
+    else if (key == 's' || key == 'S')
+    {
+      myCenterY += 2;   
+      myPointDirection = 90; 
+    }
+
+    //move left
+    else if (key == 'a' || key == 'A')
+    {
+      myCenterX -= 2; 
+      myPointDirection = 180;  
+    }    
+
+    //move right
+    else if (key == 'd' || key == 'D')
+    {
+      myCenterX += 2; 
+      myPointDirection = 0;   
+    }
+
+  }
 }
 
 class Star
@@ -71,7 +104,7 @@ class Star
 
   public void show()
   {
-    fill(255);
+    fill(255, 249, 170);
     ellipse(myX, myY, 3, 3);
   }
 }
