@@ -21,6 +21,7 @@ public void draw()
   ship.show();
   ship.keyPressed();
   ship.move();
+  //ship.accelerate();
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -32,17 +33,6 @@ public void draw()
 class SpaceShip extends Floater  
 {   
   //your code here
-  public void setX(int x){myCenterX = x;}
-  public int getX(){return (int)myCenterX;}   
-  public void setY(int y){myCenterY = y;}  
-  public int getY(){return (int)myCenterY;} 
-  public void setDirectionX(double x){myDirectionX = x;}  
-  public double getDirectionX(){return myDirectionX;}    
-  public void setDirectionY(double y){myDirectionY = y;} 
-  public double getDirectionY(){return myDirectionY;} 
-  public void setPointDirection(int degrees){myPointDirection = degrees;}
-  public double getPointDirection(){return myPointDirection;}
-
   public SpaceShip()
   {
     corners = 4;
@@ -55,7 +45,7 @@ class SpaceShip extends Floater
     myCenterX = 250;
     myCenterY = 250;
 
-    myDirectionX = 0; // ??? 
+    myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
   }
@@ -67,6 +57,7 @@ class SpaceShip extends Floater
     {
       myCenterY -= 2;    
       myPointDirection = 270;   
+      ..myDirectionX = myPointDirection*(Math.PI/180);    
     }
 
     //move down
@@ -74,6 +65,7 @@ class SpaceShip extends Floater
     {
       myCenterY += 2;   
       myPointDirection = 90; 
+      myDirectionX = myPointDirection*(Math.PI/180);    
     }
 
     //move left
@@ -81,6 +73,7 @@ class SpaceShip extends Floater
     {
       myCenterX -= 2; 
       myPointDirection = 180;  
+    
     }    
 
     //move right
@@ -90,7 +83,47 @@ class SpaceShip extends Floater
       myPointDirection = 0;   
     }
 
+    //hyperspace
+    else if (key == 'f' || key == 'F')                 //FIX
+    {
+      ship.setDirectionX(0);
+      ship.setDirectionY(0);
+      ship.setX((int)(Math.random()*500));
+    }
+
+    //brakes? decelerate
+    else
+    {
+      myCenterX += 0;
+      myCenterY += 0;
+    }
+
+    //rotate
+  /*  if (key == 'e' || key == 'E')
+    {
+     // rotate();
+     myPointDirection = myPointDirection * sin(0);
+    }
+  */
+
+//Display
+    text("myPointDirection: "+ myPointDirection, 20, 25);
+    text("myCenterX: "+ myCenterX, 20, 35);
+    text("myCenterY: "+ myCenterY, 20, 45);
+    text("myDirectionX: "+ myDirectionX, 20, 55);
+    text("myDirectionY: "+ myDirectionY, 20, 65);
   }
+
+  public void setX(int x){myCenterX = x;}
+  public int getX(){return (int)myCenterX;}   
+  public void setY(int y){myCenterY = y;}  
+  public int getY(){return (int)myCenterY;} 
+  public void setDirectionX(double x){myDirectionX = x;}  
+  public double getDirectionX(){return myDirectionX;}    
+  public void setDirectionY(double y){myDirectionY = y;} 
+  public double getDirectionY(){return myDirectionY;} 
+  public void setPointDirection(int degrees){myPointDirection = degrees;}
+  public double getPointDirection(){return myPointDirection;}
 }
 
 class Star
@@ -104,8 +137,9 @@ class Star
 
   public void show()
   {
+    noStroke();
     fill(255, 249, 170);
-    ellipse(myX, myY, 3, 3);
+    text("*", myX, myY);
   }
 }
 
