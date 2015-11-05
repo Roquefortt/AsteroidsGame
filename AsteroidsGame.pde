@@ -50,6 +50,8 @@ class SpaceShip extends Floater
     myPointDirection = 0;
   }
 
+
+//set everything later
   public void keyPressed()
   {
     //move up
@@ -57,7 +59,8 @@ class SpaceShip extends Floater
     {
       myCenterY -= 2;    
       myPointDirection = 270;   
-      ..myDirectionX = myPointDirection*(Math.PI/180);    
+      myDirectionY = myDirectionY + (.1)*sin(50);   
+      //rotate(myPointDirection);
     }
 
     //move down
@@ -65,7 +68,7 @@ class SpaceShip extends Floater
     {
       myCenterY += 2;   
       myPointDirection = 90; 
-      myDirectionX = myPointDirection*(Math.PI/180);    
+      myDirectionY = myDirectionY + (.1)*sin(-50); 
     }
 
     //move left
@@ -73,7 +76,7 @@ class SpaceShip extends Floater
     {
       myCenterX -= 2; 
       myPointDirection = 180;  
-    
+      myDirectionX = myDirectionX - (.1)*cos(50);
     }    
 
     //move right
@@ -81,30 +84,17 @@ class SpaceShip extends Floater
     {
       myCenterX += 2; 
       myPointDirection = 0;   
+      myDirectionX = myDirectionX + 0.1*cos(-50);
     }
 
     //hyperspace
-    else if (key == 'f' || key == 'F')                 //FIX
+    if (key == 'f' || key == 'F')                 //FIX
     {
+      ship.setX((int)(Math.random()*500));
+      ship.setY((int)(Math.random()*500));
       ship.setDirectionX(0);
       ship.setDirectionY(0);
-      ship.setX((int)(Math.random()*500));
     }
-
-    //brakes? decelerate
-    else
-    {
-      myCenterX += 0;
-      myCenterY += 0;
-    }
-
-    //rotate
-  /*  if (key == 'e' || key == 'E')
-    {
-     // rotate();
-     myPointDirection = myPointDirection * sin(0);
-    }
-  */
 
 //Display
     text("myPointDirection: "+ myPointDirection, 20, 25);
