@@ -21,7 +21,8 @@ public void draw()
   ship.show();
   ship.keyPressed();
   ship.move();
-  //ship.accelerate();
+  ship.rotate(2);
+ // ship.accelerate(.1);
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -50,16 +51,31 @@ class SpaceShip extends Floater
     myPointDirection = 0;
   }
 
-
 //set everything later
   public void keyPressed()
   {
+    //hyperspace
+    if (key == 'f' || key == 'F')                 //FIX
+    {
+      ship.setX((int)(Math.random()*501));
+      ship.setY((int)(Math.random()*501));
+      ship.setDirectionX(0);
+      ship.setDirectionY(0);
+    }
+
+    //temp. rotate
+    if (key == 'e' || key == 'E')
+    {
+      myPointDirection = myPointDirection + 2;
+    }
+
     //move up
     if (key == 'w' || key == 'W')
     {
       myCenterY -= 2;    
-      myPointDirection = 270;   
-      myDirectionY = myDirectionY + (.1)*sin(50);   
+      //ship.setPointDirection(270);   
+      rotate(1);
+      myDirectionY = myDirectionY + (.05)*sin(50);   
       //rotate(myPointDirection);
     }
 
@@ -67,33 +83,27 @@ class SpaceShip extends Floater
     else if (key == 's' || key == 'S')
     {
       myCenterY += 2;   
-      myPointDirection = 90; 
-      myDirectionY = myDirectionY + (.1)*sin(-50); 
+      //ship.setPointDirection(90); 
+      rotate(1);
+      myDirectionY = myDirectionY + (.05)*sin(-50); 
     }
 
     //move left
     else if (key == 'a' || key == 'A')
     {
       myCenterX -= 2; 
-      myPointDirection = 180;  
-      myDirectionX = myDirectionX - (.1)*cos(50);
+      //ship.setPointDirection(180);  
+      rotate(1);
+      myDirectionX = myDirectionX - (.05)*cos(50);
     }    
 
     //move right
     else if (key == 'd' || key == 'D')
     {
       myCenterX += 2; 
-      myPointDirection = 0;   
-      myDirectionX = myDirectionX + 0.1*cos(-50);
-    }
-
-    //hyperspace
-    if (key == 'f' || key == 'F')                 //FIX
-    {
-      ship.setX((int)(Math.random()*500));
-      ship.setY((int)(Math.random()*500));
-      ship.setDirectionX(0);
-      ship.setDirectionY(0);
+      //ship.setPointDirection(0);  
+      rotate(1); 
+      myDirectionX = myDirectionX + 0.05*cos(-50);
     }
 
 //Display
