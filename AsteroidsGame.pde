@@ -62,12 +62,32 @@ class SpaceShip extends Floater
       ship.setDirectionX(0);
       ship.setDirectionY(0);
     }
+    
+    /*11-18
+            //ship.setX(-2);
+        //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
+        //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
+     
 
-    //temp. rotate
-    if (key == 'e' || key == 'E')
-    {
-      myPointDirection = myPointDirection + 2;
-    }
+      //ship.setDirectionX((int)ship.getDirectionX()+(.05)*sin(50));
+
+      //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
+      //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
+
+      //myDirectionX = myDirectionX + (.05)*sin(50);
+      //myDirectionY = myDirectionY + (.05)*sin(50);
+
+      ship.setDirectionX(1);
+      ship.setDirectionY(1);
+      ship.myCenterX = ship.myCenterX + ship.myDirectionX;
+      ship.myCenterY = ship.myCenterY + ship.myDirectionY;
+
+      double dRadians = ship.myPointDirection*(Math.PI/180);     
+      //change coordinates of direction of travel    
+      ship.myDirectionX += (ship.myDirectionX * Math.cos(dRadians));    
+      ship.myDirectionY += (ship.myDirectionY * Math.sin(dRadians));  
+      
+      */
 
     //move up
     if (key == 'w' || key == 'W')
