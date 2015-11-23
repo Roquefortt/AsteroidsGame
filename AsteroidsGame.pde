@@ -1,5 +1,6 @@
 //your variable declarations here
 Star[] nightsky = new Star[200];
+//Asteroids asteroid;
 SpaceShip ship;
 
 public void setup() 
@@ -19,10 +20,11 @@ public void draw()
   background(0);
 
   ship.show();
-  ship.keyPressed();
   ship.move();
-  ship.rotate(2);
- // ship.accelerate(.1);
+  ship.display();
+
+  //asteroid.show();
+
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -30,6 +32,61 @@ public void draw()
   }
 
 }
+
+  public void keyPressed()
+  {
+    //move. accelerate in direction it's pointing
+    if (key == 'w' || key == 'W')
+    {
+        
+        //ship.setX(-2);
+        //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
+        //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
+     
+
+      //ship.setDirectionX((int)ship.getDirectionX()+(.05)*sin(50));
+
+      //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
+      //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
+
+      //myDirectionX = myDirectionX + (.05)*sin(50);
+      //myDirectionY = myDirectionY + (.05)*sin(50);
+
+      double dRadians = ship.myPointDirection*(Math.PI/180); 
+      ship.setDirectionX(1 + ship.myDirectionX * Math.cos(dRadians));
+      ship.setDirectionY(1 + ship.myDirectionY * Math.sin(dRadians));
+      ship.myCenterX = ship.myCenterX + ship.myDirectionX;
+      ship.myCenterY = ship.myCenterY + ship.myDirectionY;
+
+    
+      //change coordinates of direction of travel    
+      ship.myDirectionX += (ship.myDirectionX * Math.cos(dRadians));    
+      ship.myDirectionY += (ship.myDirectionY * Math.sin(dRadians));  
+
+    }
+
+    //rotate left
+    else if (key == 'a' || key == 'A')
+    {
+      ship.rotate(-5);
+    }    
+
+    //rotate right
+    else if (key == 'd' || key == 'D')
+    {
+      ship.rotate(5);
+    }
+
+    //hyperspace
+    if (key == 'f' || key == 'F')               
+    {
+      ship.setX((int)(Math.random()*501));
+      ship.setY((int)(Math.random()*501));
+      ship.setPointDirection((int)(Math.random()*361));
+      ship.setDirectionX(0);
+      ship.setDirectionY(0);
+    }
+  }
 
 class SpaceShip extends Floater  
 {   
@@ -51,82 +108,9 @@ class SpaceShip extends Floater
     myPointDirection = 0;
   }
 
-//set everything later
-  public void keyPressed()
+  //Display
+  public void display()
   {
-    //hyperspace
-    if (key == 'f' || key == 'F')                 //FIX
-    {
-      ship.setX((int)(Math.random()*501));
-      ship.setY((int)(Math.random()*501));
-      ship.setDirectionX(0);
-      ship.setDirectionY(0);
-    }
-    
-    /*11-18
-            //ship.setX(-2);
-        //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
-        //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
-     
-
-      //ship.setDirectionX((int)ship.getDirectionX()+(.05)*sin(50));
-
-      //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
-      //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
-
-      //myDirectionX = myDirectionX + (.05)*sin(50);
-      //myDirectionY = myDirectionY + (.05)*sin(50);
-
-      ship.setDirectionX(1);
-      ship.setDirectionY(1);
-      ship.myCenterX = ship.myCenterX + ship.myDirectionX;
-      ship.myCenterY = ship.myCenterY + ship.myDirectionY;
-
-      double dRadians = ship.myPointDirection*(Math.PI/180);     
-      //change coordinates of direction of travel    
-      ship.myDirectionX += (ship.myDirectionX * Math.cos(dRadians));    
-      ship.myDirectionY += (ship.myDirectionY * Math.sin(dRadians));  
-      
-      */
-
-    //move up
-    if (key == 'w' || key == 'W')
-    {
-      myCenterY -= 2;    
-      //ship.setPointDirection(270);   
-      rotate(1);
-      myDirectionY = myDirectionY + (.05)*sin(50);   
-      //rotate(myPointDirection);
-    }
-
-    //move down
-    else if (key == 's' || key == 'S')
-    {
-      myCenterY += 2;   
-      //ship.setPointDirection(90); 
-      rotate(1);
-      myDirectionY = myDirectionY + (.05)*sin(-50); 
-    }
-
-    //move left
-    else if (key == 'a' || key == 'A')
-    {
-      myCenterX -= 2; 
-      //ship.setPointDirection(180);  
-      rotate(1);
-      myDirectionX = myDirectionX - (.05)*cos(50);
-    }    
-
-    //move right
-    else if (key == 'd' || key == 'D')
-    {
-      myCenterX += 2; 
-      //ship.setPointDirection(0);  
-      rotate(1); 
-      myDirectionX = myDirectionX + 0.05*cos(-50);
-    }
-
-//Display
     text("myPointDirection: "+ myPointDirection, 20, 25);
     text("myCenterX: "+ myCenterX, 20, 35);
     text("myCenterY: "+ myCenterY, 20, 45);
@@ -134,6 +118,7 @@ class SpaceShip extends Floater
     text("myDirectionY: "+ myDirectionY, 20, 65);
   }
 
+  //finished abstact methods
   public void setX(int x){myCenterX = x;}
   public int getX(){return (int)myCenterX;}   
   public void setY(int y){myCenterY = y;}  
@@ -162,6 +147,50 @@ class Star
     text("*", myX, myY);
   }
 }
+
+/*
+class Asteroids extends Floater
+{
+  private int rotationSpeed;
+  public Astreroids()
+  {
+    corners = 6;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+    xCorners[0] = -11;
+    yCorners[0] = -8;
+    xCorners[1] = 7;
+    yCorners[1] = -8;
+    xCorners[2] = 13;
+    yCorners[2] = 0;
+    xCorners[3] = 6;
+    yCorners[3] = 10;
+    xCorners[4] = -11;
+    yCorners[4] = 8;
+    xCorners[5] = -5;
+    yCorners[5] = 0;
+
+    rotationSpeed = Math.Random()*2;
+    }
+
+    public void move()
+    {
+        rotate(rotationSpeed);
+        super.move();
+    }
+
+    public void setX(int x){myCenterX = x;}
+    public int getX(){return (int)myCenterX;}   
+    public void setY(int y){myCenterY = y;}  
+    public int getY(){return (int)myCenterY;} 
+    public void setDirectionX(double x){myDirectionX = x;}  
+    public double getDirectionX(){return myDirectionX;}    
+    public void setDirectionY(double y){myDirectionY = y;} 
+    public double getDirectionY(){return myDirectionY;} 
+    public void setPointDirection(int degrees){myPointDirection = degrees;}
+    public double getPointDirection(){return myPointDirection;}
+  }
+*/
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
