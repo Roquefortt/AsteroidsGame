@@ -1,6 +1,7 @@
 //your variable declarations here
 Star[] nightsky = new Star[200];
-//Asteroids asteroid;
+//Asteroids[] asteroid = new Asteroids[1];
+
 SpaceShip ship;
 
 public void setup() 
@@ -35,6 +36,8 @@ public void draw()
 
   public void keyPressed()
   {
+    //hit space to start & set x & y to 250 
+
     //move. accelerate in direction it's pointing
     if (key == 'w' || key == 'W')
     {
@@ -125,11 +128,10 @@ class Star
   }
 }
 
-/*
 class Asteroids extends Floater
 {
   private int rotationSpeed;
-  public Astreroids()
+  public Asteroids()
   {
     corners = 6;
     xCorners = new int[corners];
@@ -147,15 +149,25 @@ class Asteroids extends Floater
     xCorners[5] = -5;
     yCorners[5] = 0;
 
-    rotationSpeed = Math.Random()*2;
-    }
+    rotationSpeed = (int)(Math.random()*1)-3;
 
+/*
+    myColor = color(255);
+    myCenterX = 200;
+    myCenterY = 200;
+
+    myDirectionX = 0;
+    myDirectionY = 0;
+    myPointDirection = 0;
+*/
+    }
+/*
     public void move()
     {
         rotate(rotationSpeed);
         super.move();
     }
-
+*/
     public void setX(int x){myCenterX = x;}
     public int getX(){return (int)myCenterX;}   
     public void setY(int y){myCenterY = y;}  
@@ -167,7 +179,6 @@ class Asteroids extends Floater
     public void setPointDirection(int degrees){myPointDirection = degrees;}
     public double getPointDirection(){return myPointDirection;}
   }
-*/
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
