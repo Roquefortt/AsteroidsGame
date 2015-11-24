@@ -38,31 +38,8 @@ public void draw()
     //move. accelerate in direction it's pointing
     if (key == 'w' || key == 'W')
     {
-        
-        //ship.setX(-2);
-        //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
-        //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
-     
-
-      //ship.setDirectionX((int)ship.getDirectionX()+(.05)*sin(50));
-
-      //ship.setX((int)ship.getX() + (int)ship.getDirectionX());
-      //ship.setY((int)ship.getY() + (int)ship.getDirectionY());
-
-      //myDirectionX = myDirectionX + (.05)*sin(50);
-      //myDirectionY = myDirectionY + (.05)*sin(50);
-
-      double dRadians = ship.myPointDirection*(Math.PI/180); 
-      ship.setDirectionX(1 + ship.myDirectionX * Math.cos(dRadians));
-      ship.setDirectionY(1 + ship.myDirectionY * Math.sin(dRadians));
-      ship.myCenterX = ship.myCenterX + ship.myDirectionX;
-      ship.myCenterY = ship.myCenterY + ship.myDirectionY;
-
-    
-      //change coordinates of direction of travel    
-      ship.myDirectionX += (ship.myDirectionX * Math.cos(dRadians));    
-      ship.myDirectionY += (ship.myDirectionY * Math.sin(dRadians));  
-
+      ship.accelerate(ship.myPointDirection*(Math.PI/180));
+      ship.move();
     }
 
     //rotate left
