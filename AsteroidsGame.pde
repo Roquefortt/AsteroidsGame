@@ -155,15 +155,15 @@ class Asteroids extends Floater
     xCorners[5] = -5;
     yCorners[5] = 0;
 
-    rotSpeed = (int)(Math.random()*5)-1;
-
     myColor = color(120);
+    //noFill();
+
+    rotSpeed = (int)(Math.random()*5)-1;
     myCenterX = (int)(Math.random()*501);
     myCenterY = (int)(Math.random()*501);
-
-    myDirectionX = 0;
-    myDirectionY = 0;
-    myPointDirection = 0;
+    myDirectionX = (int)(Math.random()*3)-.5;
+    myDirectionY = (int)(Math.random()*3)-.5;
+    myPointDirection = 1;
     }
 
     public void move()
