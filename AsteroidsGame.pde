@@ -20,13 +20,6 @@ public void setup()
       //asteroid.setX((int)(Math.random()*500));
       //asteroid.setY((int)(Math.random()*500));
   }
-
-  /*for(int i = 0; i < asteroid.size(); i++)
-  {
-      asteroid.add(new Asteroids());
-  }
-
-*/
 }
 
 public void draw() 
@@ -108,14 +101,20 @@ class SpaceShip extends Floater
     myPointDirection = 0;
   }
 
-  //Display
+  //Display + Health Bar
   public void display()
   {
+    //Display
     text("myPointDirection: "+ myPointDirection, 20, 435);
     text("myCenterX: "+ myCenterX, 20, 445);
     text("myCenterY: "+ myCenterY, 20, 455);
     text("myDirectionX: "+ myDirectionX, 20, 465);
     text("myDirectionY: "+ myDirectionY, 20, 475);
+
+    //Health Bar
+    fill(0,255,0);
+    text("HP", 10, 20);
+    rect(10,25,100,7);
   }
 
   //finished abstact methods
