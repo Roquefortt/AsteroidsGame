@@ -1,7 +1,7 @@
 //your variable declarations here
 Star[] nightsky = new Star[200];
-Asteroids[] asteroid = new Asteroids[10];
-
+//Asteroids[] asteroid = new Asteroids[10];
+ArrayList <Asteroids> asteroid = new ArrayList <Asteroids>();
 SpaceShip ship;
 
 public void setup() 
@@ -14,11 +14,19 @@ public void setup()
     nightsky[i] = new Star();
   }
 
-  for (int i = 0; i < asteroid.length; i++)
+  for(int i = 0; i < 30; i++)
   {
-    asteroid[i] = new Asteroids();
+      asteroid.add(new Asteroids());
+      //asteroid.setX((int)(Math.random()*500));
+      //asteroid.setY((int)(Math.random()*500));
   }
 
+  /*for(int i = 0; i < asteroid.size(); i++)
+  {
+      asteroid.add(new Asteroids());
+  }
+
+*/
 }
 
 public void draw() 
@@ -29,16 +37,22 @@ public void draw()
   ship.move();
   ship.display();
 
-
   for (int i = 0; i < nightsky.length; i++)
   {
     nightsky[i].show();
   }
 
-  for (int i = 0; i < asteroid.length; i++)
+  for(int i = 0; i < asteroid.size(); i++)
   {
-    asteroid[i].show();
-    asteroid[i].move();
+      asteroid.get(i).show();
+      asteroid.get(i).move();
+
+      float d = dist(ship.getX(), ship.getY(), asteroid.get(i).getX(), asteroid.get(i).getY());
+
+      if(d < 20)
+      {
+          asteroid.remove(i);
+      }
   }
 }
 
@@ -97,11 +111,11 @@ class SpaceShip extends Floater
   //Display
   public void display()
   {
-    text("myPointDirection: "+ myPointDirection, 20, 25);
-    text("myCenterX: "+ myCenterX, 20, 35);
-    text("myCenterY: "+ myCenterY, 20, 45);
-    text("myDirectionX: "+ myDirectionX, 20, 55);
-    text("myDirectionY: "+ myDirectionY, 20, 65);
+    text("myPointDirection: "+ myPointDirection, 20, 435);
+    text("myCenterX: "+ myCenterX, 20, 445);
+    text("myCenterY: "+ myCenterY, 20, 455);
+    text("myDirectionX: "+ myDirectionX, 20, 465);
+    text("myDirectionY: "+ myDirectionY, 20, 475);
   }
 
   //finished abstact methods
