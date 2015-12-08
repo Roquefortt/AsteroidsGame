@@ -1,6 +1,5 @@
 //your variable declarations here
 Star[] nightsky = new Star[200];
-//Asteroids[] asteroid = new Asteroids[10];
 ArrayList <Asteroids> asteroid = new ArrayList <Asteroids>();
 SpaceShip ship;
 
@@ -17,18 +16,12 @@ public void setup()
   for(int i = 0; i < 30; i++)
   {
       asteroid.add(new Asteroids());
-      //asteroid.setX((int)(Math.random()*500));
-      //asteroid.setY((int)(Math.random()*500));
   }
 }
 
 public void draw() 
 {
   background(0);
-
-  ship.show();
-  ship.move();
-  ship.display();
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -47,6 +40,10 @@ public void draw()
           asteroid.remove(i);
       }
   }
+
+  ship.show();
+  ship.move();
+  ship.display();
 }
 
   public void keyPressed()
@@ -89,7 +86,7 @@ class SpaceShip extends Floater
     corners = 4;
     int[] xS = {-8,16,-8,-2};
     int[] yS = {-8,0,8,0}; 
-    myColor = color(255);
+    myColor = color(194, 202, 205);
     xCorners = xS;
     yCorners = yS;
 
@@ -113,7 +110,7 @@ class SpaceShip extends Floater
 
     //Health Bar
     fill(0,255,0);
-    text("HP", 10, 20);
+    text("HP (work in progress)", 10, 20);
     rect(10,25,100,7);
   }
 
