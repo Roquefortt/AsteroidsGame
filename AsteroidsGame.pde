@@ -1,6 +1,8 @@
 //your variable declarations here
+public int rectX;
 Star[] nightsky = new Star[200];
 ArrayList <Asteroids> asteroid = new ArrayList <Asteroids>();
+ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 SpaceShip ship;
 
 public void setup() 
@@ -17,6 +19,7 @@ public void setup()
   {
       asteroid.add(new Asteroids());
   }
+
 }
 
 public void draw() 
@@ -38,12 +41,22 @@ public void draw()
       if(d < 20)
       {
           asteroid.remove(i);
+          rectX = rectX - 10;
       }
   }
 
   ship.show();
   ship.move();
   ship.display();
+
+  //bullets.show();
+
+
+  if(rectX < -90)
+    {
+        fill(255);
+        text("Game Over", 225, 250);
+    }  
 }
 
   public void keyPressed()
@@ -66,6 +79,13 @@ public void draw()
     {
       ship.rotate(5);
     }
+
+    //shoot bullets
+    /*
+    if(mousePressed == true)
+    {
+       bullets.add(new Bullet());
+    }*/
 
     //hyperspace
     if (key == 'f' || key == 'F')               
@@ -110,7 +130,15 @@ class SpaceShip extends Floater
 
     //Health Bar
     fill(0,255,0);
-    text("HP (work in progress)", 10, 20);
+    noStroke();
+    text("HP", 10, 20);
+    rect(rectX,25,110,7);
+    fill(0);
+    rect(0,25,10,7);
+
+    //outline of the health bar
+    stroke(255);
+    noFill();
     rect(10,25,100,7);
   }
 
@@ -192,7 +220,38 @@ class Asteroids extends Floater
     public double getDirectionY(){return myDirectionY;} 
     public void setPointDirection(int degrees){myPointDirection = degrees;}
     public double getPointDirection(){return myPointDirection;}
+}
+
+class Bullet extends Floater
+{
+  Bullet(SpaceShip theShip)
+  {
+    myCenterX = ship.getX();
+    myCenterY = ship.getY();
+    myPointDirection = ship.getPointDirection();
+    double dRadians = myPointDirection*(Math.PI/180);
+    myDirectionX = 5 * Math.cos(dRadians) + ship.getDirectionX();
+    myDirectionY = 5 * Math.sin(dRadians) + ship.getDirectionY();
   }
+
+  void show()
+  {
+    fill(255, 0, 0);
+    ellipse((float)myCenterX, (float)myCenterY, 5, 5);
+  }
+
+  public void setX(int x){myCenterX = x;}
+  public int getX(){return (int)myCenterX;}   
+  public void setY(int y){myCenterY = y;}  
+  public int getY(){return (int)myCenterY;} 
+  public void setDirectionX(double x){myDirectionX = x;}  
+  public double getDirectionX(){return myDirectionX;}    
+  public void setDirectionY(double y){myDirectionY = y;} 
+  public double getDirectionY(){return myDirectionY;} 
+  public void setPointDirection(int degrees){myPointDirection = degrees;}
+  public double getPointDirection(){return myPointDirection;}
+
+}
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
