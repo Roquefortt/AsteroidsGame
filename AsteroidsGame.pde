@@ -1,5 +1,6 @@
 //your variable declarations here
 public int rectX;
+public int count;
 Star[] nightsky = new Star[200];
 ArrayList <Asteroids> asteroid = new ArrayList <Asteroids>();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
@@ -17,7 +18,12 @@ public void setup()
 
   for(int i = 0; i < 30; i++)
   {
-      asteroid.add(new Asteroids());
+    asteroid.add(new Asteroids());
+  }
+
+  for(int i = 0; i < 3; i++)
+  {
+    bullets.add(new Bullet(ship));
   }
 
 }
@@ -25,6 +31,7 @@ public void setup()
 public void draw() 
 {
   background(0);
+  count = 0;
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -40,23 +47,37 @@ public void draw()
 
       if(d < 20)
       {
-          asteroid.remove(i);
-          rectX = rectX - 10;
+        asteroid.remove(i);
+        rectX = rectX - 5;
+        //count++;
       }
   }
+
+  for(int i = 0; i < bullets.size(); i++)
+    {//shoot bullets
+      if(mousePressed == true)
+      {
+        bullets.get(i).show();
+      }
+    }
 
   ship.show();
   ship.move();
   ship.display();
 
-  //bullets.show();
+  if(rectX < -95)
+  {
+      fill(255);
+      textSize(20);
+      textAlign(CENTER);
+      text("Game Over", 250, 250);
+      noLoop();
+  }  
 
-
-  if(rectX < -90)
-    {
-        fill(255);
-        text("Game Over", 225, 250);
-    }  
+  if (count == asteroid.size())
+  {
+      text("You win!", 250, 250);
+  }
 }
 
   public void keyPressed()
@@ -64,8 +85,12 @@ public void draw()
     //move. accelerate in direction it's pointing
     if (key == 'w' || key == 'W')
     {
+      double dRadians = ship.getPointDirection()*(Math.PI/180);
+      ship.myDirectionX = 5 * Math.cos(dRadians) + ship.getDirectionX();
+      ship.myDirectionY = 5 * Math.sin(dRadians) + ship.getDirectionY();
+
       ship.move();
-      ship.accelerate(ship.myPointDirection*(Math.PI/180));
+      ship.accelerate(dRadians*(Math.PI/180));
     }
 
     //rotate left
@@ -79,13 +104,6 @@ public void draw()
     {
       ship.rotate(5);
     }
-
-    //shoot bullets
-    /*
-    if(mousePressed == true)
-    {
-       bullets.add(new Bullet());
-    }*/
 
     //hyperspace
     if (key == 'f' || key == 'F')               
@@ -127,6 +145,7 @@ class SpaceShip extends Floater
     text("myCenterY: "+ myCenterY, 20, 455);
     text("myDirectionX: "+ myDirectionX, 20, 465);
     text("myDirectionY: "+ myDirectionY, 20, 475);
+    //text("Asteroids Destroyed: "+ count, 20, 485);
 
     //Health Bar
     fill(0,255,0);
@@ -194,8 +213,6 @@ class Asteroids extends Floater
     yCorners[5] = 0;
 
     myColor = color(120);
-    //noFill();
-
     rotSpeed = (int)(Math.random()*5)-1;
     myCenterX = (int)(Math.random()*501);
     myCenterY = (int)(Math.random()*501);
@@ -237,7 +254,7 @@ class Bullet extends Floater
   void show()
   {
     fill(255, 0, 0);
-    ellipse((float)myCenterX, (float)myCenterY, 5, 5);
+    ellipse(ship.getX(), ship.getY(), 5, 5);
   }
 
   public void setX(int x){myCenterX = x;}
