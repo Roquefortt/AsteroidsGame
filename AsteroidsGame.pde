@@ -48,18 +48,22 @@ public void draw()
       if(d < 20)
       {
         asteroid.remove(i);
-        rectX = rectX - 5;
+        rectX -= 5;
         //count++;
       }
-  }
+}
 
-  for(int i = 0; i < bullets.size(); i++)
-    {//shoot bullets
-      if(mousePressed == true)
+
+ /* for(int i = 0; i < bullets.size(); i++)
+    {
+      //bullets.get(i).show();
+      if(get( ??????????????????? ))
       {
-        bullets.get(i).show();
+        asteroid.get(i).remove();
+        bullets.get(i).remove();
       }
     }
+*/
 
   ship.show();
   ship.move();
@@ -79,6 +83,16 @@ public void draw()
       text("You win!", 250, 250);
   }
 }
+
+  public void mouseClicked()
+  {
+      for(int i = 0; i < bullets.size(); i++)
+      {
+          //shoot bullets
+          bullets.get(i).show();
+          bullets.get(i).move();
+      }
+  }
 
   public void keyPressed()
   {
@@ -253,8 +267,9 @@ class Bullet extends Floater
 
   void show()
   {
+    noStroke();
     fill(255, 0, 0);
-    ellipse(ship.getX(), ship.getY(), 5, 5);
+    rect(ship.getX(), ship.getY(), 10, 5);
   }
 
   public void setX(int x){myCenterX = x;}
