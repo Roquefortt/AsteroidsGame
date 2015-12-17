@@ -9,6 +9,7 @@ SpaceShip ship;
 public void setup() 
 {
   size(700,700);
+  score = 0;
   ship = new SpaceShip();
   asteroid = new ArrayList <Asteroids>();
   bullets = new ArrayList <Bullet>();
@@ -27,13 +28,16 @@ public void setup()
 public void draw() 
 {
   background(0);
-  score = 0;
+  ship.show();
+  ship.move();
+  ship.display();
 
   for (int i = 0; i < nightsky.length; i++)
   {
     nightsky[i].show();
   }
 
+//asteroids
   for(int i = 0; i < asteroid.size(); i++)
   {
       asteroid.get(i).show();
@@ -47,36 +51,50 @@ public void draw()
         rectX -= 5;
         score++;
       }
-   }
-    
-//bullets
+      
+    //collision
+    for (int h = 0; h < bullets.size(); h++)
+    {      
+      float e = dist(asteroid.get(i).getX(), asteroid.get(i).getY(), bullets.get(h).getX(), bullets.get(h).getY());
+      
+      if( e < asteroid.size() )
+      {
+       bullets.remove(h);
+       asteroid.remove(i);
+       score++;
+       return;
+      }
+   
+    }
+  }  
+  
+    //bullets
     for (int i = 0; i < bullets.size(); i++)
     {
       bullets.get(i).show();
       bullets.get(i).move();
-
+ 
       if (bullets.get(i).getX() > width || bullets.get(i).getX() < 0 || bullets.get(i).getY() > height || bullets.get(i).getY() < 0)
       {
         bullets.remove(i);
       }
-    }
-  
-  ship.show();
-  ship.move();
-  ship.display();
 
-  if(rectX < -95)
+     }
+  
+//health bar
+  if(rectX < -100)
   {
       fill(255);
       textSize(20);
       textAlign(CENTER);
-      text("Game Over", 250, 250);
+      textSize(20);
+      text("Game Over", 350, 350);
       noLoop();
   }  
 
-  if (score == asteroid.size())
+  if (score == 30)
   {
-      text("You win!", 250, 250);
+      text("You win!", 350, 350);
   }
 }
 
@@ -128,13 +146,12 @@ class SpaceShip extends Floater
     corners = 4;
     int[] xS = {-8,16,-8,-2};
     int[] yS = {-8,0,8,0}; 
+    
     myColor = color(194, 202, 205);
     xCorners = xS;
     yCorners = yS;
-
     myCenterX = 250;
     myCenterY = 250;
-
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
@@ -144,11 +161,12 @@ class SpaceShip extends Floater
   public void display()
   {
     //Display
-    text("myPointDirection: "+ myPointDirection, 20, height-65);
-    text("myCenterX: "+ myCenterX, 20, height-55);
-    text("myCenterY: "+ myCenterY, 20, height-45);
-    text("myDirectionX: "+ myDirectionX, 20, height-35);
-    text("myDirectionY: "+ myDirectionY, 20, height-25);
+    textSize(20);
+    //text("myPointDirection: "+ myPointDirection, 20, height-65)
+    //text("X Position: "+ myCenterX, 20, height-55);
+    //text("Y Position: "+ myCenterY, 20, height-35);
+    //text("myDirectionX: "+ myDirectionX, 20, height-35);
+    //text("myDirectionY: "+ myDirectionY, 20, height-25);
     text("Asteroids Destroyed: "+ score, 20, height-15);
 
     //Health Bar
@@ -190,6 +208,7 @@ class Star
   public void show()
   {
     noStroke();
+    textSize(10);
     fill(255, 249, 170);
     text("*", myX, myY);
   }
@@ -218,8 +237,8 @@ class Asteroids extends Floater
 
     myColor = color(120);
     rotSpeed = (int)(Math.random()*5)-1;
-    myCenterX = (int)(Math.random()*501);
-    myCenterY = (int)(Math.random()*501);
+    myCenterX = (int)(Math.random()*width);
+    myCenterY = (int)(Math.random()*height);
     myDirectionX = (int)(Math.random()*3)-.5;
     myDirectionY = (int)(Math.random()*3)-.5;
     myPointDirection = 1;
@@ -252,18 +271,24 @@ class Bullet extends Floater
     myCenterY = ship.getY();
     myPointDirection = ship.getPointDirection();
     dRadians = myPointDirection*(Math.PI/180);
-    myDirectionX = 2 * Math.cos(dRadians) + ship.getDirectionX();
-    myDirectionY = 2 * Math.sin(dRadians) + ship.getDirectionY();
+    myDirectionX = Math.cos(dRadians);
+    myDirectionY = Math.sin(dRadians);
   }
 
-  void show()
+  public void show()
   {
     noStroke();
     fill(255, 0, 0);
     double dRadians = myPointDirection*(Math.PI/180);
     ellipse((float)myCenterX, (float)myCenterY, 3, 3);
   }
-
+  
+  public void move()
+  { 
+    myCenterX += 4*myDirectionX;
+    myCenterY += 4*myDirectionY;
+  }
+  
   public void setX(int x){myCenterX = x;}
   public int getX(){return (int)myCenterX;}   
   public void setY(int y){myCenterY = y;}  
@@ -274,7 +299,6 @@ class Bullet extends Floater
   public double getDirectionY(){return myDirectionY;} 
   public void setPointDirection(int degrees){myPointDirection = degrees;}
   public double getPointDirection(){return myPointDirection;}
-
 }
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
