@@ -172,6 +172,7 @@ class SpaceShip extends Floater
     //Health Bar
     fill(0,255,0);
     noStroke();
+    textSize(12);
     text("HP", 10, 20);
     rect(rectX,25,110,7);
     fill(0);
