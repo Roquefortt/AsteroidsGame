@@ -1,15 +1,17 @@
 //your variable declarations here
 public int rectX;
-public int count;
-Star[] nightsky = new Star[200];
-ArrayList <Asteroids> asteroid = new ArrayList <Asteroids>();
-ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+public int score;
+Star[] nightsky = new Star[300];
+ArrayList <Asteroids> asteroid;
+ArrayList <Bullet> bullets;
 SpaceShip ship;
 
 public void setup() 
 {
-  size(500,500);
+  size(700,700);
   ship = new SpaceShip();
+  asteroid = new ArrayList <Asteroids>();
+  bullets = new ArrayList <Bullet>();
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -20,18 +22,12 @@ public void setup()
   {
     asteroid.add(new Asteroids());
   }
-
-  for(int i = 0; i < 3; i++)
-  {
-    bullets.add(new Bullet(ship));
-  }
-
 }
 
 public void draw() 
 {
   background(0);
-  count = 0;
+  score = 0;
 
   for (int i = 0; i < nightsky.length; i++)
   {
@@ -44,27 +40,27 @@ public void draw()
       asteroid.get(i).move();
 
       float d = dist(ship.getX(), ship.getY(), asteroid.get(i).getX(), asteroid.get(i).getY());
-
+      
       if(d < 20)
       {
         asteroid.remove(i);
         rectX -= 5;
-        //count++;
+        score++;
       }
-}
-
-
- /* for(int i = 0; i < bullets.size(); i++)
+   }
+    
+//bullets
+    for (int i = 0; i < bullets.size(); i++)
     {
-      //bullets.get(i).show();
-      if(get( ??????????????????? ))
+      bullets.get(i).show();
+      bullets.get(i).move();
+
+      if (bullets.get(i).getX() > width || bullets.get(i).getX() < 0 || bullets.get(i).getY() > height || bullets.get(i).getY() < 0)
       {
-        asteroid.get(i).remove();
-        bullets.get(i).remove();
+        bullets.remove(i);
       }
     }
-*/
-
+  
   ship.show();
   ship.move();
   ship.display();
@@ -78,7 +74,7 @@ public void draw()
       noLoop();
   }  
 
-  if (count == asteroid.size())
+  if (score == asteroid.size())
   {
       text("You win!", 250, 250);
   }
@@ -86,23 +82,17 @@ public void draw()
 
   public void mouseClicked()
   {
-      for(int i = 0; i < bullets.size(); i++)
-      {
-          //shoot bullets
-          bullets.get(i).show();
-          bullets.get(i).move();
-      }
+      bullets.add(new Bullet(ship));
   }
 
   public void keyPressed()
   {
-    //move. accelerate in direction it's pointing
+    //move forward
     if (key == 'w' || key == 'W')
     {
       double dRadians = ship.getPointDirection()*(Math.PI/180);
-      ship.myDirectionX = 5 * Math.cos(dRadians) + ship.getDirectionX();
-      ship.myDirectionY = 5 * Math.sin(dRadians) + ship.getDirectionY();
-
+      ship.myDirectionX = 2 * Math.cos(dRadians) + ship.getDirectionX();
+      ship.myDirectionY = 2 * Math.sin(dRadians) + ship.getDirectionY();
       ship.move();
       ship.accelerate(dRadians*(Math.PI/180));
     }
@@ -122,8 +112,8 @@ public void draw()
     //hyperspace
     if (key == 'f' || key == 'F')               
     {
-      ship.setX((int)(Math.random()*501));
-      ship.setY((int)(Math.random()*501));
+      ship.setX((int)(Math.random()*width));
+      ship.setY((int)(Math.random()*height));
       ship.setPointDirection((int)(Math.random()*361));
       ship.setDirectionX(0);
       ship.setDirectionY(0);
@@ -154,12 +144,12 @@ class SpaceShip extends Floater
   public void display()
   {
     //Display
-    text("myPointDirection: "+ myPointDirection, 20, 435);
-    text("myCenterX: "+ myCenterX, 20, 445);
-    text("myCenterY: "+ myCenterY, 20, 455);
-    text("myDirectionX: "+ myDirectionX, 20, 465);
-    text("myDirectionY: "+ myDirectionY, 20, 475);
-    //text("Asteroids Destroyed: "+ count, 20, 485);
+    text("myPointDirection: "+ myPointDirection, 20, height-65);
+    text("myCenterX: "+ myCenterX, 20, height-55);
+    text("myCenterY: "+ myCenterY, 20, height-45);
+    text("myDirectionX: "+ myDirectionX, 20, height-35);
+    text("myDirectionY: "+ myDirectionY, 20, height-25);
+    text("Asteroids Destroyed: "+ score, 20, height-15);
 
     //Health Bar
     fill(0,255,0);
@@ -193,8 +183,8 @@ class Star
   private int myX, myY;
   public Star()
   {
-    myX = (int)(Math.random()*501);
-    myY = (int)(Math.random()*501);
+    myX = (int)(Math.random()*width);
+    myY = (int)(Math.random()*height);
   }
 
   public void show()
@@ -255,21 +245,23 @@ class Asteroids extends Floater
 
 class Bullet extends Floater
 {
+  private double dRadians;
   Bullet(SpaceShip theShip)
   {
     myCenterX = ship.getX();
     myCenterY = ship.getY();
     myPointDirection = ship.getPointDirection();
-    double dRadians = myPointDirection*(Math.PI/180);
-    myDirectionX = 5 * Math.cos(dRadians) + ship.getDirectionX();
-    myDirectionY = 5 * Math.sin(dRadians) + ship.getDirectionY();
+    dRadians = myPointDirection*(Math.PI/180);
+    myDirectionX = 2 * Math.cos(dRadians) + ship.getDirectionX();
+    myDirectionY = 2 * Math.sin(dRadians) + ship.getDirectionY();
   }
 
   void show()
   {
     noStroke();
     fill(255, 0, 0);
-    rect(ship.getX(), ship.getY(), 10, 5);
+    double dRadians = myPointDirection*(Math.PI/180);
+    ellipse((float)myCenterX, (float)myCenterY, 3, 3);
   }
 
   public void setX(int x){myCenterX = x;}
